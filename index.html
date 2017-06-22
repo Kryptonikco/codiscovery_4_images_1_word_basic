@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+  <div>
+    <h1>Level 1</h1>
+    <div class="imgs">
+      <img />
+      <img />
+      <img />
+      <img />
+    </div>
+    <div class="mystery"></div>
+    <ul class="letters">
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+    <button>Back</button>
+  </div>
+  <script type="text/javascript">
+    const words = [{
+      word: 'CHAUD',
+      imgs: [
+        'img/img1_1.png',
+        'img/img1_2.png',
+        'img/img1_3.png',
+        'img/img1_4.png',
+      ],
+    }, {
+      word: 'MATIN',
+      imgs: [
+        'img/img2_1.png',
+        'img/img2_2.png',
+        'img/img2_3.png',
+        'img/img2_4.png',
+      ],
+    }, {
+      word: 'RACINE',
+      imgs: [
+        'img/img3_1.png',
+        'img/img3_2.png',
+        'img/img3_3.png',
+        'img/img3_4.png',
+      ],
+    }, {
+      word: 'FRANGE',
+      imgs: [
+        'img/img4_1.png',
+        'img/img4_2.png',
+        'img/img4_3.png',
+        'img/img4_4.png',
+      ],
+    }];
+  </script>
+  <script type="text/javascript">
+    let result = '';
+    let selectedWord = '';
+    let currentLevel = 1;
+    let shuffledLetters = [];
+    let maxLettersIndex = 0;
+
+    const mysteryEl = document.getElementsByClassName('mystery')[0];
+
+    const buildLevel = (isReshuffle = true) => {
+      result = '';
+      const titleEl = document.getElementsByTagName('h1')[0];
+      titleEl.textContent = `Level ${currentLevel}`;
+
+      const wordObj = words[currentLevel - 1];
+      if (typeof wordObj === 'undefined') {
+        return;
+      }
+      wordObj.imgs.forEach((src, index) => {
+        document.getElementsByTagName('img')[index].src = src;
+      });
+
+      selectedWord = wordObj.word;
+
+      const letters = [];
+      selectedWord.split('').forEach((letter) => {
+        letters.push(letter);
+      });
+
+      let lettersLength = letters.length;
+      maxLettersIndex = lettersLength - 1;
+      let rmChild = mysteryEl.firstChild;
+      while (rmChild) {
+        mysteryEl.removeChild(rmChild);
+        rmChild = mysteryEl.firstChild;
+      }
+      while (lettersLength > 0) {
+        const letterEl = document.createElement('input');
+        letterEl.disabled = true;
+        letterEl.type = 'text';
+        letterEl.maxLength = 1;
+        
+        mysteryEl.appendChild(letterEl);
+
+        lettersLength--;
+      }
+
+      while (letters.length < 12) {
+        letters.push(getRandomLetter());
+      }
+
+      if (isReshuffle === true) {
+        shuffle(letters);
+        shuffledLetters = letters;
+      }
+
+      shuffledLetters.forEach((letter, index) => {
+        const letterEl = document.getElementsByTagName('li')[index];
+        letterEl.style.opacity = '1';
+        letterEl.textContent = letter;
+      });
+    };
+
+    const attachClickLetter = (e) => {
+      const letterEl = e.target;
+      const letter = letterEl.textContent;
+
+      if (letterEl.style.opacity === '0') {
+        return;
+      }
+      letterEl.style.opacity = 0;
+      let isValueEntered = false;
+      mysteryEl.childNodes.forEach((input, index) => {
+        if (isValueEntered === false) {
+          if (input.value === '') {
+            input.value = letter;
+            isValueEntered = true;
+            result += letter;
+            if (index === maxLettersIndex) {
+              checkResult();
+            }
+          }
+        }
+      });
+    };
+
+    for (let i = 0; i < 12; i++) {
+      document.getElementsByTagName('li')[i].addEventListener('click', attachClickLetter);
+    }
+
+    const checkResult = () => {
+      console.log('result:', result);
+      console.log('selectedWord:', selectedWord);
+      if (result === selectedWord) {
+        alert('SUCCESS');
+        currentLevel++;
+        buildLevel();
+      } else {
+        alert('ERROR');
+        buildLevel(false);
+      }
+    };
+
+    const getRandomLetter = () => {
+      const num = getRandomInt(1, 26);
+      return String.fromCharCode(num + 64);
+    };
+
+    const getRandomInt = (min, max) => {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    };
+
+    const shuffle = (a) => {
+        for (let i = a.length; i; i--) {
+            let j = Math.floor(Math.random() * i);
+            [a[i - 1], a[j]] = [a[j], a[i - 1]];
+        }
+    };
+
+    buildLevel();
+  </script>
+</body>
+</html>
