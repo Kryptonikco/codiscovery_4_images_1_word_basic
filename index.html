@@ -103,6 +103,35 @@
       });
     };
     // EVENT LISTENERS
+    const attachClickLetter = (e) => {
+      const liEl = e.target;
+      const letter = liEl.textContent;
+
+      if (liEl.style.opacity === '0') {
+        return;
+      }
+
+      liEl.style.opacity = 0;
+
+      let isValueEntered = false;
+      mysteryEl.childNodes.forEach((divEl, index) => {
+        if (isValueEntered === false) {
+          if (divEl.textContent === '') {
+            divEl.textContent = letter;
+            isValueEntered = true;
+            answer += letter;
+            if (index === maxLettersIndex) {
+              checkAnswer();
+            }
+          }
+        }
+      });
+    };
+
+    document.getElementsByTagName('ul')[0].childNodes.forEach((el) => {
+      el.addEventListener('click', attachClickLetter);
+    });
+
     // ANSWER
     // FUNCTIONS
     const getRandomLetter = () => {
