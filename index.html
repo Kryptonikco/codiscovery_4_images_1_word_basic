@@ -46,6 +46,11 @@
       titleEl.innerHTML = `Level ${currentLevel}`;
 
       // API
+      const apiResponse = await fetch(`http://labs.kryptonik.net/four_images_one_word/api/level/${currentLevel}`);
+      const wordObj = await apiResponse.json();
+      console.log('wordObj', wordObj);
+      maxLevel = wordObj.maxLevel;
+      
       // IMAGES
       // LETTERS - INITIALISATION
       // LETTERS - REMOVE PREVIOUS
