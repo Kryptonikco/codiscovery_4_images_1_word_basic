@@ -39,7 +39,12 @@
     // MAIN
     const buildLevel = async (isReshuffled = true) => {
       // RESET
+      answer = '';
+
       // TITLE
+      const titleEl = document.getElementsByTagName('h1')[0];
+      titleEl.innerHTML = `Level ${currentLevel}`;
+
       // API
       // IMAGES
       // LETTERS - INITIALISATION
