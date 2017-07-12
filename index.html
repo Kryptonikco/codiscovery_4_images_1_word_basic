@@ -50,8 +50,22 @@
       const wordObj = await apiResponse.json();
       console.log('wordObj', wordObj);
       maxLevel = wordObj.maxLevel;
-      
+
       // IMAGES
+      // const img1El = document.getElementsByTagName('img')[0];
+      // img1El.src = wordObj.imgs[0];
+      // const img2El = document.getElementsByTagName('img')[1];
+      // img2El.src = wordObj.imgs[1];
+      // const img3El = document.getElementsByTagName('img')[2];
+      // img3El.src = wordObj.imgs[2];
+      // const img4El = document.getElementsByTagName('img')[3];
+      // img4El.src = wordObj.imgs[3];
+
+      wordObj.imgs.forEach((src, index) => {
+        const imgEl = document.getElementsByTagName('img')[index];
+        imgEl.src = src;
+      });
+
       // LETTERS - INITIALISATION
       // LETTERS - REMOVE PREVIOUS
       // LETTERS - MYSTERY LENGTH
