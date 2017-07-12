@@ -133,6 +133,23 @@
     });
 
     // ANSWER
+    const checkAnswer = () => {
+      console.log('answer:', answer);
+      console.log('selectedWord:', selectedWord);
+      if (answer === selectedWord) {
+        currentLevel++;
+        if (currentLevel > maxLevel) {
+          alert('THE END');
+        } else {
+          alert('SUCCESS');
+          buildLevel();
+        }
+      } else {
+        alert('WRONG');
+        buildLevel(false);
+      }
+    };
+
     // FUNCTIONS
     const getRandomLetter = () => {
       const num = getRandomInt(1, 26);
