@@ -67,7 +67,18 @@
       });
 
       // LETTERS - INITIALISATION
+      const letters = wordObj.word.split('');
+      selectedWord = wordObj.word;
+
+      maxLettersIndex = letters.length - 1;
+
       // LETTERS - REMOVE PREVIOUS
+      let rmChild = mysteryEl.firstChild;
+      while (rmChild) {
+        mysteryEl.removeChild(rmChild);
+        rmChild = mysteryEl.firstChild;
+      }
+
       // LETTERS - MYSTERY LENGTH
       // LETTERS - SHUFFLE
     };
